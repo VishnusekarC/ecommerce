@@ -1,0 +1,63 @@
+from django.db import models
+
+class Product(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    # Add other product-related fields like images, category, etc.
+
+    def __str__(self):
+        return self.title
+
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+    # Add other category-related fields if necessary
+
+    def __str__(self):
+        return self.name
+
+class ProductAttribute(models.Model):
+    name = models.CharField(max_length=255)
+    # Additional fields for attribute type (e.g., color, size, material, etc.)
+
+    def __str__(self):
+        return self.name
+
+class AttributeValue(models.Model):
+    attribute = models.ForeignKey(ProductAttribute, on_delete=models.CASCADE)
+    value = models.CharField(max_length=255)
+    # Additional fields like an image or display value if needed
+
+    def __str__(self):
+        return self.value
+
+class ProductVariant(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    sku = models.CharField(max_length=50, unique=True)
+    attributes = models.ManyToManyField(AttributeValue, through='VariantAttribute')
+    # Additional fields like stock quantity, barcode, and more
+
+    def __str__(self):
+        return self.sku
+
+class VariantAttribute(models.Model):
+    variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
+    attribute_value = models.ForeignKey(AttributeValue, on_delete=models.CASCADE)
+
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField(ProductVariant, through='CartItem')
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField(CartItem)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    # Additional order-related fields like shipping address, payment info, and status
+
+    def __str__(self):
+        return f"Order #{self.pk}"

@@ -1,0 +1,15 @@
+[
+    {
+        "model": "accounts.customuser",
+        "fields": {
+            "password": "pbkdf2_sha256$600000$OE10b8BNsS52W5lZD6eHtS$5A2tuHnbbyvcFjdWWncC/oqIjC8ebLWaNuExW01iVf4=",
+            "last_login": "2023-10-14T16:58:17.499Z",
+            "email": "tim@gmail.com",
+            "is_admin": true,
+            "is_active": true,
+            "is_superuser": true,
+            "groups": [],
+            "user_permissions": []
+        }
+    }
+]
