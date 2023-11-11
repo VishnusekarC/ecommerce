@@ -40,9 +40,9 @@
 12. Setup the django environment from the repository code
     ```
     python -m django --version
-    python manage.py makeserver
+    python manage.py makemigrations
     python manage.py migrate
-    python3 manage.py runserver 8000
+    python3 manage.py runserver
     ```
 14. Install ngrock and run it on http port 8000
     ```
